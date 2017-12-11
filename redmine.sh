@@ -98,7 +98,17 @@ if [ $? -ne 0 ]; then
   tar -xf ruby.tar.gz
   mv ruby-2.4.2 ruby-src
   cd ruby-src
-  
+  ./configure   \
+    --prefix=$install_path/ruby \
+    --oldincludedir=$install_path/ruby/include \
+    --datadir=$install_path/ruby/data \
+    --htmldir=$install_path/ruby/doc/html \
+    --dvidir=$install_path/ruby/doc/dvi \
+    --pdfdir=$install_path/ruby/doc/pdf \
+    --psdir=$install_path/ruby/doc/ps \
+    --disable-install-doc 
+  make
+  make install
 fi
 
 exit
