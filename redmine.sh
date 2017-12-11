@@ -117,21 +117,21 @@ if [ $? -ne 0 ]; then
 
   export PATH=$PATH:$install_path/ruby/bin/
   
-  #cd ext/zlib
-  #yum install -y zlib zlib-devel
-  #ruby extconf.rb
-  #sed -i "s/\$(top_srcdir)/\/usr\/local\/bin\/redmine\/install\/ruby-src/g" Makefile
-  #make 
-  #make install
+  cd ext/zlib
+  yum install -y zlib zlib-devel
+  ruby extconf.rb
+  sed -i "s/\$(top_srcdir)/\/usr\/local\/bin\/redmine\/install\/ruby-src/g" Makefile
+  make 
+  make install
   
-  #cd ext/openssl
-  #yum install -y openssl openssl-devel
-  #ruby extconf.rb
-  #sed -i "s/\$(top_srcdir)/\/usr\/local\/bin\/redmine\/install\/ruby-src/g" Makefile
-  #make
-  #make install
+  cd ext/openssl
+  yum install -y openssl openssl-devel
+  ruby extconf.rb
+  sed -i "s/\$(top_srcdir)/\/usr\/local\/bin\/redmine\/install\/ruby-src/g" Makefile
+  make
+  make install
   
-  #cd ../..
+  cd ../..
   
   cd ..
 fi
@@ -153,28 +153,28 @@ cd ../
 
 # setup
 cd redmine
-#echo "production:" >> config/database.yml
-#echo "  adapter: mysql2" >> config/database.yml
-#echo "  database: $mysql_dbname" >> config/database.yml
-#echo "  host: $mysql_host" >> config/database.yml
-#echo "  port: $mysql_port" >> config/database.yml
-#echo "  username: $mysql_redmine_user" >> config/database.yml
-#echo "  password: $mysql_redmine_password" >> config/database.yml
+echo "production:" >> config/database.yml
+echo "  adapter: mysql2" >> config/database.yml
+echo "  database: $mysql_dbname" >> config/database.yml
+echo "  host: $mysql_host" >> config/database.yml
+echo "  port: $mysql_port" >> config/database.yml
+echo "  username: $mysql_redmine_user" >> config/database.yml
+echo "  password: $mysql_redmine_password" >> config/database.yml
 
-#gem install bundler
-#yum install -y mysql-devel
-#gem install mysql2 -v '0.4.10'
-#yum install -y ImageMagick ImageMagick-devel
-#gem install rmagick -v '2.16.0'
+gem install bundler
+yum install -y mysql-devel
+gem install mysql2 -v '0.4.10'
+yum install -y ImageMagick ImageMagick-devel
+gem install rmagick -v '2.16.0'
 
-#bundle install --without development test
-#bundle exec rake generate_secret_token
-#RAILS_ENV=production bundle exec rake db:migrate
-#RAILS_ENV=production bundle exec rake redmine:load_default_data
+bundle install --without development test
+bundle exec rake generate_secret_token
+RAILS_ENV=production bundle exec rake db:migrate
+RAILS_ENV=production bundle exec rake redmine:load_default_data
 
-#mkdir -p tmp tmp/pdf public/plugin_assets
-#chown -R redmine:redmine files log tmp public/plugin_assets
-#chmod -R 755 files log tmp public/plugin_assets
+mkdir -p tmp tmp/pdf public/plugin_assets
+chown -R redmine:redmine files log tmp public/plugin_assets
+chmod -R 755 files log tmp public/plugin_assets
 
 # create tools
 echo "#/bin/bash" >> test.sh
