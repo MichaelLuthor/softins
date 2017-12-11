@@ -86,6 +86,20 @@ echo "  host: $mysql_host" >> config/database.yml
 echo "  port: $mysql_port" >> config/database.yml
 echo "  username: $mysql_redmine_user" >> config/database.yml
 echo "  password: $mysql_redmine_password" >> config/database.yml
+cd ..
+
+# check ruby
+command -v ruby
+if [ $? -ne 0 ]; then
+  echo "install ruby 2.4.2"
+  if [ ! -f "ruby.tar.gz" ]; then
+    wget https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz -O ruby.tar.gz
+  fi
+  tar -xf ruby.tar.gz
+  mv ruby-2.4.2 ruby-src
+  cd ruby-src
+  
+fi
 
 exit
 
