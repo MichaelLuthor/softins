@@ -16,7 +16,6 @@ mysql_redmine_password="redmine"
 
 old_env_path=$PATH
 
-:<<!
 read -p "version (3.4.3) : " rdm_version
 if [ "" = "$rdm_version" ]; then
   rdm_version="3.4.3";
@@ -61,7 +60,6 @@ read -p "mysql redmine passsword (redmine) : " mysql_redmine_password
 if [ "" = "$mysql_redmine_password" ]; then
   mysql_redmine_password="redmine"
 fi 
-!
 
 # setup database
 mysql_option="-h$mysql_host -u$mysql_admin_user -P $mysql_port"
@@ -93,7 +91,7 @@ ruby_path=""
 command -v ruby
 if [ $? -ne 0 ]; then
   ruby_path="$install_path/ruby/bin"
-
+  
   cd install
   if [ ! -f "ruby.tar.gz" ]; then
     wget https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.2.tar.gz -O ruby.tar.gz
@@ -113,27 +111,29 @@ if [ $? -ne 0 ]; then
       --disable-install-doc
     make
     make install
+    cd ..
   fi
 
   export PATH=$PATH:$install_path/ruby/bin/
   
+  cd ruby-src
   cd ext/zlib
   yum install -y zlib zlib-devel
   ruby extconf.rb
-  sed -i "s/\$(top_srcdir)/\/usr\/local\/bin\/redmine\/install\/ruby-src/g" Makefile
+  sed -i "s/\$(top_srcdir)/..\/../g" Makefile
   make 
   make install
-  
+  cd ../.. # back to ruby-src
+ 
   cd ext/openssl
   yum install -y openssl openssl-devel
   ruby extconf.rb
-  sed -i "s/\$(top_srcdir)/\/usr\/local\/bin\/redmine\/install\/ruby-src/g" Makefile
+  sed -i "s/\$(top_srcdir)/..\/../g" Makefile
   make
   make install
-  
-  cd ../..
-  
-  cd ..
+  cd ../.. # back to ruby-src
+
+  cd ../.. # back to redmine
 fi
 
 cd install
@@ -190,3 +190,5 @@ chmod u+x test.sh
 
 # Resotre old env value
 export PATH=$old_env_path
+
+echo "Done !"
