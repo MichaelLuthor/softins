@@ -1,2 +1,2 @@
 # softins
-common softwares installer
+a collection of bash scripts to install softwares.
