@@ -11,10 +11,6 @@ default_install_location=/usr/local/bin/jenkins
 default_http_port=8080
 java_command=java
 
-install_software () {
-  yum install $1
-}
-
 export LANG=en_US.UTF-8
 read -p "where to install ($default_install_location) : " install_location
 if [ "" = "$install_location" ]; then
@@ -50,17 +46,13 @@ mkdir "$install_location/plugins"
 mkdir "$install_location/temp"
 mkdir "$install_location/lib"
 
-echo "#!/bin/sh" >> "$install_location/start.sh"
-echo "export JENKINS_HOME=$install_location/home/" >> "$install_location/start.sh"
-echo "nohup $java_command -jar jenkins.war --webroot=webroot/ --pluginroot=plugins/ --extractedFilesFolder=temp/ --logfile=jenkins.log --commonLibFolder=lib/ --httpPort=$http_port &" >> "$install_location/start.sh"
-chmod u+x "$install_location/start.sh"
+cp extscripts/jenkins.manager.sh $install_location/jenkins.manager.sh
+ln -s $install_location/jenkins.manager.sh /usr/bin/jenkins.manager
 
-echo "#!/bin/sh" >> "$install_location/stop.sh"
-echo "kill -9 \`ps -ef | grep jenkins.war | grep -v 'grep' | awk '{print \$2}'\`" >> "$install_location/stop.sh"
-chmod u+x "$install_location/stop.sh"
+echo "install_location=$install_location" >> $install_location/jenkins.manager.config
+echo "java_command=$java_command" >> $install_location/jenkins.manager.config
+echo "http_port=$http_port" >> $install_location/jenkins.manager.config
 
-echo "#!/bin/sh" >> "$install_location/purge.sh"
-echo "rm -fr $install_location" >> "$install_location/purge.sh"
-chmod u+x "$install_location/purge.sh"
-
-echo "done"
+echo "===================================================================="
+echo "# jenkins.manager start|stop|restart|uninstall"
+echo "===================================================================="
